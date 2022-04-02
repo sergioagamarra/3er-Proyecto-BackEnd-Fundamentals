@@ -2,8 +2,12 @@ const path = require("path")
 const express = require("express")
 const morgan = require("morgan")
 const expressLayouts = require("express-ejs-layouts")
-const { port } = require("./config");
+const { port, secret } = require("./config");
 const {connection, sequelize} = require("./config/database");
+const session = require("express-session")
+
+// Importando rutas
+const authRouter = require("./routes/authRoutes")
 
 const app = express()
 
@@ -13,6 +17,11 @@ app.use(morgan("dev"))
 // Definiendo middleware layouts
 app.use(expressLayouts)
 
+//Middleware de urlencoded
+app.use(express.urlencoded({
+    extended:true
+}))
+
 // Archivos estáticos
 app.use(express.static(path.join(__dirname,"static")))
 
@@ -20,10 +29,21 @@ app.use(express.static(path.join(__dirname,"static")))
 app.set("view engine", "ejs")
 app.set("layout", "./layouts/base")
 
+// Definiendo la sesión
+app.use(session({
+    secret:secret,
+    resave:false,
+    saveUninitialized:false
+}))
+
 //TEST DE CONEXIÓN
 connection()
 
-app.get("/", (req, res) => {
+// Utilizando rutas
+app.use("/auth", authRouter)
+
+app.get("/", async (req, res) => {
+    console.log(req.session)
     res.render("index", {
         saludo: "HOLA SERGIO"
     })

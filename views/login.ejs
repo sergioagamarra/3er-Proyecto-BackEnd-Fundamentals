@@ -1,0 +1,20 @@
+<div class="container">
+    <form action="/auth/login" method="post">
+        <div class="mb-3 mt-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input name="email" id="email" type="email" class="form-control" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input name="password" id="password" type="password" class="form-control">
+        </div>
+        <button type="submit" class="btn bg-warning text-dark">Submit</button>
+    </form>
+    <% if (typeof isError !== "undefined" && isError) { %>
+        <div class="alert alert-danger mt-3" role="alert">
+            <%= errors %>
+        </div>
+    <% } %>
+</div>
+
