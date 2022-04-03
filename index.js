@@ -5,6 +5,7 @@ const expressLayouts = require("express-ejs-layouts")
 const { port, secret } = require("./config");
 const {connection, sequelize} = require("./config/database");
 const session = require("express-session")
+const flash = require("connect-flash")
 
 // Importando rutas
 const authRouter = require("./routes/authRoutes")
@@ -21,6 +22,9 @@ app.use(expressLayouts)
 app.use(express.urlencoded({
     extended:true
 }))
+
+// Definiendo middleware para flash massages
+app.use(flash())
 
 // Archivos estáticos
 app.use(express.static(path.join(__dirname,"static")))
