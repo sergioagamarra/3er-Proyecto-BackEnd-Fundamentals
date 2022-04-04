@@ -6,6 +6,7 @@ const { port, secret } = require("./config");
 const {connection, sequelize} = require("./config/database");
 const session = require("express-session")
 const flash = require("connect-flash")
+const csrf = require("csurf")
 
 // Importando rutas
 const authRouter = require("./routes/authRoutes")
@@ -23,6 +24,7 @@ app.use(express.urlencoded({
     extended:true
 }))
 
+
 // Definiendo middleware para flash massages
 app.use(flash())
 
@@ -39,6 +41,9 @@ app.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
+//Usando token scrf. Tiene que ir despues de express-session y urlencoded
+app.use(csrf())
 
 //TEST DE CONEXIÓN
 connection()

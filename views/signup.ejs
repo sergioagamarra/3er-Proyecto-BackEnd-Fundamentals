@@ -4,10 +4,11 @@
     </symbol>
   </svg>
 
-<div class="container">
+<div class="d-flex align-items-center flex-column">
+    <p class="h2 mt-3">User Register</p>
     <% if (typeof isError !== "undefined" && isError) { %>
         <% errors.forEach(error => { %>
-            <div class="alert alert-danger alert-dismissible fade show  mt-3" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mt-3 w-25 p-3" role="alert">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                 <%= error %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -15,7 +16,7 @@
         <% }) %>
     <% } %>
 
-    <form action="/auth/signup" method="post">
+    <form class="w-25 p-3" action="/auth/signup" method="post">
         <div class="mb-3 mt-3">
             <label for="exampleInputName1" class="form-label">Name</label>
             <!-- <input name="name" id="name" type="text" class="form-control" aria-describedby="nameHelp"> -->

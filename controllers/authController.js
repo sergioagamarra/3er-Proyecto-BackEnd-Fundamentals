@@ -3,7 +3,7 @@ const db = require("../models/index")
 class AuthController{
 
     getLoginView(req,res){
-        // const token = req.csrfToken()
+        const token = req.csrfToken()
         const status = req.flash("status")
         console.log(status);
         return res.render("login",{
@@ -11,9 +11,9 @@ class AuthController{
                 show:status.length>0,
                 messages:status
             }
-            // ,
-            // csrfToken:token
-            // // isError:false
+            ,
+            csrfToken:token
+            // isError:false
         })
     }
 
@@ -73,7 +73,8 @@ class AuthController{
         }
         return res.render("login",{
             isError:true,
-            errors:["Credenciales incorrectas, favor de verificar"]
+            errors:["Credenciales incorrectas, favor de verificar"],
+            csrfToken:req.csrfToken()
         })
     }
 
