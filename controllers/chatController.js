@@ -1,16 +1,31 @@
 const db = require("../models/index")
+const { Op } = require("sequelize");
 
 class ChatController{
     async getChatsView(req,res){
-        const chats = await db.User.findAll({
-            include: {
-                model: db.User,
-                as: 'sender'
-              }
-        })
+        // const chats = await db.User.findAll({
+        //     include: {
+        //         model: db.User,
+        //         as: 'sender'
+        //       }
+        // })
         
-        // console.log(chats);
-        return res.json(chats)
+        // // console.log(chats);
+        // return res.json(chats)
+        const idUserSession = req.session.idUser
+        const userSession = await db.User.findByPk(idUserSession)
+
+        const users = await db.User.findAll({
+            where: {
+                id: {[Op.ne]: idUserSession}
+                // [Op.ne]: [{id: idUserSession}]
+            }
+        })
+    
+        return res.render("chats",{
+            userSession: userSession,
+            users: users
+        })
     }
 
     async createMessage(req, res){

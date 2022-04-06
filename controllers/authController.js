@@ -5,7 +5,6 @@ class AuthController{
     getLoginView(req,res){
         const token = req.csrfToken()
         const status = req.flash("status")
-        console.log(status);
         return res.render("login",{
             status:{
                 show:status.length>0,
@@ -77,7 +76,8 @@ class AuthController{
                 req.session.idUser = user.id
                 req.session.role = user.role
                 console.log(user);
-                return res.render("chats", {user: user})
+                // return res.redirect("chats", {user: user})
+                return res.redirect("/chats")
             }
             
         }

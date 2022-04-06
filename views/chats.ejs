@@ -7,7 +7,7 @@
                     <a href="#!" class="nav-link">
                         <div class="position-relative"
                             style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
-                            <img src=<%= user.profilePic %> 
+                            <img src=<%= userSession.profilePic %> 
                                 class="img-fluid rounded-circle" alt="">
                             <span
                                 class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#!" class="nav-link link-dark"><%= user.name %></a>
+                    <a href="#!" class="nav-link link-dark"><%= userSession.name %></a>
                 </li>
             </ul>
         </div>
@@ -28,27 +28,32 @@
           <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
     </div>
-    <div class="card bg-light mb-3">
-        <div class="navbar navbar-expand p-0">
-            <ul class="navbar-nav me-auto align-items-center">
-                <li class="nav-item">
-                    <a href="#!" class="nav-link">
-                        <div class="position-relative"
-                            style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
-                            <img src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-                                class="img-fluid rounded-circle" alt="">
-                            <span
-                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
-                                <span class="visually-hidden">New alerts</span>
-                            </span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#!" class="nav-link link-dark">Nelh</a>
-                </li>
-            </ul>
-            <button class="btn btn-warning m-3" type="submit">Send message</button>
-        </div>
-    </div> 
+    <% if (users.length > 0) { %>
+        <% users.forEach(user => { %>
+            <div class="card bg-light mb-3">
+                <div class="navbar navbar-expand p-0">
+                    <ul class="navbar-nav me-auto align-items-center">
+                        <li class="nav-item">
+                            <a href="#!" class="nav-link">
+                                <div class="position-relative"
+                                    style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
+                                    <img src=<%= user.profilePic %> 
+                                        class="img-fluid rounded-circle" alt="">
+                                    <span
+                                        class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#!" class="nav-link link-dark"><%= user.name %> </a>
+                        </li>
+                    </ul>
+                    <button class="btn btn-warning m-3" type="submit">Send message</button>
+                </div>
+            </div> 
+        <% }) %>
+    <% } %>
+    
 </div>
