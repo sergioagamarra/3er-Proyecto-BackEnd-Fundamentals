@@ -10,6 +10,7 @@ const csrf = require("csurf")
 
 // Importando rutas
 const authRouter = require("./routes/authRoutes")
+const chatRouter = require("./routes/chatRoutes")
 
 const app = express()
 
@@ -50,6 +51,7 @@ connection()
 
 // Utilizando rutas
 app.use("/auth", authRouter)
+app.use("/chats", chatRouter)
 
 app.get("/", async (req, res) => {
     console.log(req.session)

@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.User, { as: "sender", foreignKey: "idSender", through: models.Message});
+      User.belongsToMany(models.User, { as: "receiver", foreignKey: "idReceiver", through: models.Message});
+      // User.hasMany(models.Message);
     }
   }
   User.init({
@@ -22,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     birthday: DataTypes.DATEONLY,
     profilePic: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    role: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

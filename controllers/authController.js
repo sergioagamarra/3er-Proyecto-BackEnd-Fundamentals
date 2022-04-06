@@ -10,15 +10,18 @@ class AuthController{
             status:{
                 show:status.length>0,
                 messages:status
-            }
-            ,
+            },
             csrfToken:token
             // isError:false
         })
     }
 
     getSignUpView(req,res){
-        return res.render("signup",{isError:false})
+        const token = req.csrfToken()
+        return res.render("signup",{
+            isError:false,
+            csrfToken:token
+        })
     }
 
     logOut(req,res){
@@ -67,7 +70,9 @@ class AuthController{
                 req.session.loggedIn = true
                 req.session.username = user.username
                 req.session.idUser = user.id
-                return res.redirect("/")
+                req.session.role = user.role
+                console.log(user);
+                return res.render("chats", {user: user})
             }
             
         }
