@@ -19,8 +19,8 @@ class AuthController{
     getSignUpView(req,res){
         const token = req.csrfToken()
         return res.render("signup",{
-            isError:false,
-            csrfToken:token
+            isError: false,
+            csrfToken: token
         })
     }
 
@@ -45,14 +45,19 @@ class AuthController{
             )
             //Entra aquí si se lanza una excepcion
             return res.render("signup",{
-                isError:true,
-                errors:errors
+                isError: true,
+                errors: errors,
+                csrfToken: req.csrfToken()
                 })
             }
         
         }
         else{
-            return res.render("signup",validation)
+            return res.render("signup",{
+                isError: validation.isError,
+                errors: validation.errors,
+                csrfToken: req.csrfToken()
+            })
         }
     }
 
@@ -77,9 +82,9 @@ class AuthController{
             
         }
         return res.render("login",{
-            isError:true,
-            errors:["Credenciales incorrectas, favor de verificar"],
-            csrfToken:req.csrfToken()
+            isError: true,
+            errors: ["Credenciales incorrectas, favor de verificar"],
+            csrfToken: req.csrfToken()
         })
     }
 
