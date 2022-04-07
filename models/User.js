@@ -11,9 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.User, { as: "sender", foreignKey: "idSender", through: models.Message});
-      User.belongsToMany(models.User, { as: "receiver", foreignKey: "idReceiver", through: models.Message});
+      User.belongsToMany(models.User, {as: "sender", foreignKey: "idSender", through: models.Message});
+      User.belongsToMany(models.User, {as: "receiver", foreignKey: "idReceiver", through: models.Message});
+      //User.belongsToMany(models.User, { as: "sender", through: models.Message});
+      //User.belongsToMany(models.User, { as: "receiver", foreignKey: "idReceiver", through: models.Message});
       // User.hasMany(models.Message);
+      
     }
   }
   User.init({

@@ -11,14 +11,14 @@ module.exports = {
       idSender: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users", // 'Movies' would also work
+          model: "Users",
           key: 'id'
         }
       },
       idReceiver: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users", // 'Movies' would also work
+          model: "Users", 
           key: 'id'
         }
       },

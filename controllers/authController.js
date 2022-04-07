@@ -75,7 +75,6 @@ class AuthController{
                 req.session.username = user.username
                 req.session.idUser = user.id
                 req.session.role = user.role
-                console.log(user);
                 // return res.redirect("chats", {user: user})
                 return res.redirect("/chats")
             }

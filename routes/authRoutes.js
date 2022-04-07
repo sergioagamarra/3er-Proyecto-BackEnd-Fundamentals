@@ -1,5 +1,6 @@
 const express = require("express")
 const AuthController = require("../controllers/authController")
+const { verifySession, verifyAdmin } = require("../middleware/verifySession")
 
 
 const router = express.Router()
