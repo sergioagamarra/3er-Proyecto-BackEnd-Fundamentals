@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // Message.belongsTo(models.User);
       // Message.belongsTo(Team);
       // Message.belongsTo(models.User);
+      //Message.hasOne(models.User,{foreignKey:"id",otherKey:"idSender"})
     }
   }
   Message.init({

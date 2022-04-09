@@ -50,7 +50,8 @@
                             <a href="#!" class="nav-link link-dark"><%= user.name %> </a>
                         </li>
                     </ul>
-                    <button class="btn btn-warning m-3" type="submit">Send message</button>
+                    <!-- <button class="btn btn-warning m-3" type="submit">Send message</button> -->
+                    <a class="btn btn-warning m-3" href="/chats/conversation/<%= user.id %> " role="button">Send message</a>
                 </div>
             </div> 
         <% }) %>
