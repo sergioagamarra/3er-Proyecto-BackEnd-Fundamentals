@@ -1,9 +1,11 @@
 const db = require("../models/index")
 const { Op } = require("sequelize");
-const { redirect } = require("express/lib/response");
+const { DateTime } = require("luxon");
+const { localsName } = require("ejs");
 
 class ChatController{
     async getChatsView(req,res){
+        console.log(req.session);
         const idUserSession = req.session.idUser
         const userSession = await db.User.findByPk(idUserSession)
         const users = await db.User.findAll({
@@ -55,7 +57,15 @@ class ChatController{
             model: db.Message,
             mapToModel: true // pass true here if you have any mapped fields
           });
-        console.log(messages);
+         messages.forEach(message => {
+            //   message.fecha = formatDateMessage(message.fecha);
+            
+            let newDate = message.fecha;
+            message.dataValues.dateFormated = formatDateMessage(newDate)
+            console.log(message.fecha);
+            console.log(message.dataValues.dateFormated);
+
+          });
         return res.json(messages)
     }
 
@@ -81,5 +91,11 @@ class ChatController{
             // title: 'Express'
         })
     }
+
+    
 }
+function formatDateMessage(date){
+    const newDate = DateTime.fromJSDate(date);
+    return newDate.toFormat("HH:mm'hs' dd/MM/yyyy", { zone: "America/Argentina/Jujuy" });
+  }
 module.exports = ChatController

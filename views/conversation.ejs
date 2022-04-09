@@ -31,7 +31,7 @@
             <% if (messages[i].idSender === user.id) { %>
                 
                 <div class="d-flex align-items-baseline mb-4">
-                    <div class="position-relative avatar" style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
+                    <div id="user" class="position-relative avatar" style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
                         <img src=<%= user.profilePic %> 
                             class="img-fluid rounded-circle" alt="">
                     </div>
@@ -98,8 +98,9 @@
     const id = document.getElementById("idUser").value
     let content = document.getElementById("content")
     let userSession = document.getElementById("userSession")
-    userSession.setAttribute("style", "width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px;");
-    userSession.setAttribute("class", "position-relative avatar")
+    let user = document.getElementById("user")
+    // userSession.setAttribute("style", "width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px;");
+    // userSession.setAttribute("class", "position-relative avatar")
     let messages = []
     setInterval(() => {
         fetch("/chats/newMessages/"+id,{
@@ -120,17 +121,19 @@
             if (message.idSender == id){
                 content.innerHTML = content.innerHTML + `
                 <div class="d-flex align-items-baseline mb-4">
+                    ` +  user.outerHTML + `
                     <div class="pe-2">
                         <div>
                             <div class="card card-text d-inline-block text-dark bg-warning p-2 px-3 m-1">${message.message} 
                             </div>
                         </div>
                         <div>
-                            <div class="small">${message.fecha} 
+                            <div class="small">${message.dateFormated} 
                             </div></div>
                         </div>
-                    </div>
+                    </div> 
                 </div>`
+
             }
             else{
                 content.innerHTML = content.innerHTML + `
@@ -140,14 +143,15 @@
                             <div class="card card-text d-inline-block text-white bg-dark p-2 px-3 m-1">${message.message}</div>
                         </div>
                         <div>
-                            <div class="small">${message.fecha} </div>
+                            <div class="small">${message.dateFormated}</div>
                         </div>
-                    </div>` +  userSession.innerHTML + `
+                    </div>` +  userSession.outerHTML + `
                 </div>`
 
             }
             
         }
+    
     
 
     }
