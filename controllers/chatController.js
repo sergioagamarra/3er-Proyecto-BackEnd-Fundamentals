@@ -16,7 +16,8 @@ class ChatController{
         })
         return res.render("chats",{
             userSession: userSession,
-            users: users
+            users: users,
+            session:req.session
         })
     }
 
@@ -87,7 +88,8 @@ class ChatController{
             user: user,
             userSession: userSession,
             helper: require('../helpers/helpers'),
-            csrfToken: token
+            csrfToken: token,
+            session:req.session
             // title: 'Express'
         })
     }

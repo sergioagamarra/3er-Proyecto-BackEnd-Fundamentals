@@ -56,7 +56,7 @@ app.use("/chats", chatRouter)
 app.get("/", async (req, res) => {
     console.log(req.session)
     res.render("index", {
-        saludo: "HOLA SERGIO"
+        session:req.session
     })
 })
 

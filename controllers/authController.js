@@ -10,7 +10,8 @@ class AuthController{
                 show:status.length>0,
                 messages:status
             },
-            csrfToken:token
+            csrfToken:token,
+            session:req.session
             // isError:false
         })
     }
@@ -19,7 +20,8 @@ class AuthController{
         const token = req.csrfToken()
         return res.render("signup",{
             isError: false,
-            csrfToken: token
+            csrfToken: token,
+            session:req.session
         })
     }
 
