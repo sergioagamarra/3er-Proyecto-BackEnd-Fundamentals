@@ -8,6 +8,14 @@ var helpers = {
       dateToday: function () {
         const newDate = new Date()
         return newDate
-      }  
+      },
+      isImage: function (message) {
+        const str = message
+        console.log(str.includes("https"));
+        if (message.length > 5 && str.includes("https")){
+          return true
+        }
+        return false
+      }   
 };
 module.exports = helpers;

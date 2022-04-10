@@ -1,0 +1,82 @@
+<div class="container card mt-3">
+    <div class="card-header bg-transparent">
+        <div class="navbar navbar-expand p-0">
+            <ul class="navbar-nav me-auto align-items-center">
+                <li class="nav-item">
+                    <a href="#!" class="nav-link">
+                        <div class="position-relative"
+                            style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
+                            <img src=<%= userSession.profilePic %> 
+                                class="img-fluid rounded-circle" alt="">
+                            <span
+                                class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#!" class="nav-link link-dark"><%= userSession.name %></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid mt-3 mb-3">
+       
+    </div>
+    <% if (messages.length > 0) { %>
+        <% messages.forEach(message => { %>
+            <div class="card bg-light mb-3">
+                <% if (message.idSender === userSession.id) { %>
+                    <div class="navbar navbar-expand p-0">
+                        <ul class="navbar-nav me-auto align-items-center">
+                            <li class="nav-item">
+                                <a href="#!" class="nav-link">
+                                    <div class="position-relative"
+                                        style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
+                                        <img src=<%= message.PicReceiver %> 
+                                            class="img-fluid rounded-circle" alt="">
+                                        <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                            <span class="visually-hidden">New alerts</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#!" class="nav-link link-dark"><%= message.NameReceiver %> </a>
+                            </li>
+                        </ul>
+                        <!-- <button class="btn btn-warning m-3" type="submit">Send message</button> -->
+                        <a class="btn btn-secondary m-3" href="/chats/conversation/<%= message.idReceiver %> " role="button">View conversation</a>
+                    </div>
+                <% } else { %> 
+                    <div class="navbar navbar-expand p-0">
+                        <ul class="navbar-nav me-auto align-items-center">
+                            <li class="nav-item">
+                                <a href="#!" class="nav-link">
+                                    <div class="position-relative"
+                                        style="width:50px; height: 50px; border-radius: 50%; border: 2px solid #212529; padding: 2px">
+                                        <img src=<%= message.PicSender %> 
+                                            class="img-fluid rounded-circle" alt="">
+                                        <span
+                                            class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
+                                            <span class="visually-hidden">New alerts</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#!" class="nav-link link-dark"><%= message.NameSender %> </a>
+                            </li>
+                        </ul>
+                        <!-- <button class="btn btn-warning m-3" type="submit">Send message</button> -->
+                        <a class="btn btn-dark m-3" href="/chats/conversation/<%= message.idSender %> " role="button">View conversation</a>
+                    </div>
+                <% } %>
+                
+            </div> 
+        <% }) %>
+    <% } %>
+    
+</div>

@@ -5,7 +5,7 @@
   </svg>
 
 <div class="d-flex align-items-center flex-column">
-    <p class="h2 mt-3">User Register</p>
+    <p class="h2 mt-3 mb-3 text-white">User Register</p>
     <% if (typeof isError !== "undefined" && isError) { %>
         <% errors.forEach(error => { %>
             <div class="alert alert-danger alert-dismissible fade show mt-3 w-25 p-3" role="alert">
@@ -16,7 +16,7 @@
         <% }) %>
     <% } %>
 
-    <form class="w-25 p-3" action="/auth/signup" method="post">
+    <form class="card w-25 p-3 text-dark mt-3" style="box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);" action="/auth/signup" method="post">
         <div class="mb-3 mt-3">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="exampleInputName1" class="form-label">Name</label>

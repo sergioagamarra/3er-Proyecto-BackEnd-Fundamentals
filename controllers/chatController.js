@@ -1,23 +1,22 @@
 const db = require("../models/index")
-const { Op } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 const { DateTime } = require("luxon");
-const { localsName } = require("ejs");
+
 
 class ChatController{
     async getChatsView(req,res){
-        console.log(req.session);
+        const token = req.csrfToken()
         const idUserSession = req.session.idUser
         const userSession = await db.User.findByPk(idUserSession)
         const users = await db.User.findAll({
             where: {
                 id: {[Op.ne]: idUserSession}
-                // [Op.ne]: [{id: idUserSession}]
             }
         })
         return res.render("chats",{
             userSession: userSession,
             users: users,
-            session:req.session
+            csrfToken:token
         })
     }
 
@@ -39,15 +38,16 @@ class ChatController{
         return res.redirect("/chats/conversation/" + message.idReceiver)
     }
 
-    async getConversationsView(req, res){
-        // const user = await db.User.findByPk(1)
-        // console.log(user);
-        // const chats = await user.getMessages()
-        const chats = await db.User.findAll({
-            include: ["sender", "receiver"]
+    async getMyChatsView(req, res){
+        const idUserSession = req.session.idUser
+        const userSession = await db.User.findByPk(idUserSession)
+        const query = "SELECT (M.idSender + M.idReceiver) as Conversacion, M.idSender, M.idReceiver, U1.name as NameSender, U1.profilePic as PicSender, U2.name as NameReceiver , U2.profilePic as PicReceiver FROM messages as M, users as U1, users as U2 WHERE (M.idSender = " + idUserSession + " OR M.idReceiver = " + idUserSession + ") AND M.idSender = U1.id AND M.idReceiver = U2.id GROUP BY Conversacion;"
+        const messages = await db.sequelize.query(query, { type: QueryTypes.SELECT });
+        console.log(messages);
+        return res.render("my_chats",{
+            userSession: userSession,
+            messages: messages
         })
-        // console.log(chats);
-        return res.json(chats)
     }
 
     async getNewMessagesView(req, res){
@@ -56,11 +56,9 @@ class ChatController{
         const query = "SELECT * FROM messages WHERE (messages.idSender = " + idUserSession + " AND messages.idReceiver = " + idUser + ") OR (messages.idSender = " + idUser + " AND messages.idReceiver = " + idUserSession + ") ORDER BY messages.fecha"
         const messages = await db.sequelize.query(query, {
             model: db.Message,
-            mapToModel: true // pass true here if you have any mapped fields
+            mapToModel: true 
           });
          messages.forEach(message => {
-            //   message.fecha = formatDateMessage(message.fecha);
-            
             let newDate = message.fecha;
             message.dataValues.dateFormated = formatDateMessage(newDate)
             console.log(message.fecha);
@@ -77,7 +75,7 @@ class ChatController{
         const query = "SELECT * FROM messages WHERE (messages.idSender = " + idUserSession + " AND messages.idReceiver = " + idUser + ") OR (messages.idSender = " + idUser + " AND messages.idReceiver = " + idUserSession + ") ORDER BY messages.fecha"
         const messages = await db.sequelize.query(query, {
             model: db.Message,
-            mapToModel: true // pass true here if you have any mapped fields
+            mapToModel: true 
           });
 
         const user = await db.User.findByPk(idUser)
@@ -89,8 +87,30 @@ class ChatController{
             userSession: userSession,
             helper: require('../helpers/helpers'),
             csrfToken: token,
-            session:req.session
-            // title: 'Express'
+        })
+    }
+
+    async getUserSearchView(req, res){
+        const user = req.body
+        console.log(user.nameUser);
+        const idUserSession = req.session.idUser
+        const userSession = await db.User.findByPk(idUserSession)
+        const users = await db.User.findAll({
+            where: {
+                [Op.and]: [{
+                        id: {[Op.ne]: idUserSession}
+                    }, { 
+                        name: {
+                            [Op.substring]: user.nameUser
+                        }
+                    }]
+            }
+        })
+        console.log(users);
+        return res.render("chats",{
+            userSession: userSession,
+            users: users,
+            csrfToken: req.csrfToken()
         })
     }
 

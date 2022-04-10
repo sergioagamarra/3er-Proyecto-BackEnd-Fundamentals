@@ -5,7 +5,7 @@
         </symbol> 
       </svg>
 
-    <p class="h2 mt-3">Login</p>
+    <p class="h2 mt-3 mb-3 mb-3 text-white">Login</p>
 
     <% if (typeof status !== "undefined" && status.show) { %>
         <% status.messages.forEach(message => { %>
@@ -25,10 +25,10 @@
         </div>
     <% } %>
 
-    <form class="w-25 p-3" action="/auth/login" method="post">
+    <form class="card w-25 p-3 text-dark mt-3" style="box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);" action="/auth/login" method="post">
         <div class="mb-3 mt-3">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <label for="exampleInputEmail1" class="form-label" >Email address</label>
             <!-- <input name="email" id="email" type="email" class="form-control" aria-describedby="emailHelp"> -->
             <div class="input-group has-validation">
                 <input name="email" id="email" type="email" class="form-control" aria-describedby="inputGroupPrepend" required>

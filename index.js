@@ -7,6 +7,7 @@ const {connection, sequelize} = require("./config/database");
 const session = require("express-session")
 const flash = require("connect-flash")
 const csrf = require("csurf")
+const addSession = require("./middleware/addSession");
 
 // Importando rutas
 const authRouter = require("./routes/authRoutes")
@@ -45,6 +46,7 @@ app.use(session({
 
 //Usando token scrf. Tiene que ir despues de express-session y urlencoded
 app.use(csrf())
+app.use(addSession);
 
 //TEST DE CONEXIÓN
 connection()
