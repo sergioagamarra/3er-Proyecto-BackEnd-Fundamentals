@@ -6,6 +6,7 @@ const { DateTime } = require("luxon");
 class ChatController{
     async getChatsView(req,res){
         const token = req.csrfToken()
+        const status = req.flash("status")
         const idUserSession = req.session.idUser
         const userSession = await db.User.findByPk(idUserSession)
         const users = await db.User.findAll({
@@ -16,6 +17,10 @@ class ChatController{
         return res.render("chats",{
             userSession: userSession,
             users: users,
+            status:{
+                show:status.length>0,
+                messages:status
+            },
             csrfToken:token
         })
     }
@@ -92,7 +97,6 @@ class ChatController{
 
     async getUserSearchView(req, res){
         const user = req.body
-        console.log(user.nameUser);
         const idUserSession = req.session.idUser
         const userSession = await db.User.findByPk(idUserSession)
         const users = await db.User.findAll({
@@ -106,7 +110,6 @@ class ChatController{
                     }]
             }
         })
-        console.log(users);
         return res.render("chats",{
             userSession: userSession,
             users: users,
@@ -114,10 +117,58 @@ class ChatController{
         })
     }
 
+    async getEditUserView(req, res){
+        const id = req.params.id
+        const user = await db.User.findByPk(id)
+        return res.render("editUser",{
+            user: user,
+            csrfToken: req.csrfToken()
+        })
+    }
+
+    async getPerfilView(req,res){
+        const idUserSession = req.session.idUser
+        const userSession = await db.User.findByPk(idUserSession)
+        return res.render("perfil",{
+            userSession: userSession,
+            helper: require('../helpers/helpers'),
+        })
+    }
+
+    async editUser(req, res){
+        const user = req.body
+        const id = req.params.id
+        const updateUser = await db.User.update(user, {
+            where: {
+              id: id
+            }
+        });
+        return res.redirect("/chats/perfil")
+    }
+
+    async deleteUser(req, res){
+        const id = req.params.id
+        try{
+            const deleteUser = await db.User.destroy({
+                where: {
+                  id: id
+                }
+            });
+            return res.redirect("/chats/")
+        }
+        catch(e){
+            console.log(e);
+            req.flash("status", "Error al eliminar usuario")
+            return res.redirect("/chats/")
+        }
+        
+    }
     
 }
+
 function formatDateMessage(date){
     const newDate = DateTime.fromJSDate(date);
     return newDate.toFormat("HH:mm'hs' dd/MM/yyyy", { zone: "America/Argentina/Jujuy" });
   }
+
 module.exports = ChatController

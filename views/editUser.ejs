@@ -5,7 +5,7 @@
   </svg>
 
 <div class="d-flex align-items-center flex-column">
-    <p class="h2 mt-3 mb-3 text-white">User Register</p>
+    <p class="h2 mt-3 mb-3 text-white">User Edit</p>
     <% if (typeof isError !== "undefined" && isError) { %>
         <% errors.forEach(error => { %>
             <div class="alert alert-danger alert-dismissible fade show mt-3 w-25 p-3" role="alert">
@@ -16,13 +16,13 @@
         <% }) %>
     <% } %>
 
-    <form class="card w-25 p-3 text-dark mt-3" style="box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);" action="/auth/signup" method="post">
+    <form class="card w-25 p-3 text-dark mt-3" style="box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);" action="/chats/editUser/<%= user.id %>" method="post">
         <div class="mb-3 mt-3">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="exampleInputName1" class="form-label">Name</label>
             <!-- <input name="name" id="name" type="text" class="form-control" aria-describedby="nameHelp"> -->
             <div class="input-group has-validation">
-                <input name="name" id="name" type="text" class="form-control" aria-describedby="inputGroupPrepend" required>
+                <input name="name" id="name" type="text" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.name %>">
                 <div class="invalid-feedback">
                   Please choose a name.
                 </div>
@@ -32,38 +32,57 @@
             <!-- <label for="exampleInputUsername1" class="form-label">Username</label>
             <input name="username" id="username" type="text" class="form-control" aria-describedby="usernameHelp"> -->
             <label for="validationCustomUsername" class="form-label">Username</label>
-            <div class="input-group has-validation">
-              <span class="input-group-text" id="inputGroupPrepend">@</span>
-              <input name="username" id="username" type="text" class="form-control" aria-describedby="inputGroupPrepend" required>
-              <div class="invalid-feedback">
-                Please choose a username.
-              </div>
-            </div>
+            <% if (session.role === "admin") { %>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    <input name="username" id="username" type="text" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.username %>">
+                    <div class="invalid-feedback">
+                      Please choose a username.
+                    </div>
+                  </div>
+            <% } else { %>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    <input name="username" id="username" type="text" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.username %>" readonly>
+                    <div class="invalid-feedback">
+                      Please choose a username.
+                    </div>
+                  </div>
+            <% } %>
+            
         </div>
         <div class="mb-3 mt-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <!-- <input name="email" id="email" type="email" class="form-control" aria-describedby="emailHelp"> -->
-            <div class="input-group has-validation">
-                <input name="email" id="email" type="email" class="form-control" aria-describedby="inputGroupPrepend" required>
-                <div class="invalid-feedback">
-                  Please choose a email.
+            <% if (session.role === "admin") { %>
+                <div class="input-group has-validation">
+                    <input name="email" id="email" type="email" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.email %>">
+                    <div class="invalid-feedback">
+                      Please choose a email.
+                    </div>
                 </div>
-            </div>
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <% } else { %>
+                <div class="input-group has-validation">
+                    <input name="email" id="email" type="email" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.email %>" readonly>
+                    <div class="invalid-feedback">
+                      Please choose a email.
+                    </div>
+                </div>
+            <% } %>
         </div>
         <div class="mb-3 mt-3">
             <label for="exampleInputBirthday1" class="form-label">Birthday</label>
-            <input name="birthday" id="birthday" type="date" class="form-control" aria-describedby="birthdayHelp">
+            <input name="birthday" id="birthday" type="date" class="form-control" aria-describedby="birthdayHelp" value="<%= user.birthday %>">
         </div>
         <div class="mb-3 mt-3">
             <label for="exampleInputProfilePic1" class="form-label">Profile Picture</label>
-            <input name="profilePic" id="profilePic" type="text" class="form-control" aria-describedby="profilePicHelp">
+            <input name="profilePic" id="profilePic" type="text" class="form-control" aria-describedby="profilePicHelp" value="<%= user.profilePic %>">
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <!-- <input name="password" id="password" type="password" class="form-control"> -->
             <div class="input-group has-validation">
-                <input name="password" id="password" type="password" class="form-control" aria-describedby="inputGroupPrepend" required>
+                <input name="password" id="password" type="password" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.password %>">
                 <div class="invalid-feedback">
                   Please choose a password.
                 </div>
@@ -73,12 +92,12 @@
             <label for="exampleInputPasswordRepeated1" class="form-label">Repeat Password</label>
             <!-- <input name="passwordRepeated" id="passwordRepeated" type="password" class="form-control"> -->
             <div class="input-group has-validation">
-                <input name="passwordRepeated" id="passwordRepeated" type="password" class="form-control" aria-describedby="inputGroupPrepend" required>
+                <input name="passwordRepeated" id="passwordRepeated" type="password" class="form-control" aria-describedby="inputGroupPrepend" required value="<%= user.password %>">
                 <div class="invalid-feedback">
                   Please choose a repeat password.
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn bg-warning text-dark">Register</button>
+        <button type="submit" class="btn bg-warning text-dark">Edit</button>
     </form>
 </div>

@@ -13,5 +13,9 @@ router.get("/my_chats", chatController.getMyChatsView)
 router.get("/conversation/:id", chatController.getConversationView)
 router.get("/newMessages/:id", chatController.getNewMessagesView)
 router.post("/send", chatController.sendMessage)
+router.get("/perfil", chatController.getPerfilView)
+router.get("/editUser/:id", chatController.getEditUserView)
+router.post("/editUser/:id", chatController.editUser)
+router.get("/deleteUser/:id", chatController.deleteUser)
 
 module.exports = router
